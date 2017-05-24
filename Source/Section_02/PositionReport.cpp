@@ -22,11 +22,10 @@ void UPositionReport::BeginPlay()
 	Super::BeginPlay();
 
 	FString objectName = GetOwner()->GetName();
-	//FVector objectPosition = GetOwner()->GetActorLocation();
 	FString objectPositionString = GetOwner()->GetActorLocation().ToString();
 
 	//UE_LOG(LogTemp, Warning, TEXT("Mornin' report! I'm the %s, standing at: x: %d, y: %d, z: %d."), *objectName, objectPosition[0], objectPosition[1], objectPosition[2]);
-	UE_LOG(LogTemp, Warning, TEXT("I'm still %s, but now let's see my location with string: %s"), *objectName, *objectPositionString);
+	//UE_LOG(LogTemp, Warning, TEXT("I'm still %s, but now let's see my location with string: %s"), *objectName, *objectPositionString);
 }
 
 
