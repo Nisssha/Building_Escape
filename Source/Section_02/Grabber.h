@@ -14,6 +14,7 @@ class SECTION_02_API UGrabber : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UGrabber();
+	
 
 protected:
 	// Called when the game starts
@@ -24,6 +25,14 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
+	void Grab();
+	void Release();
+	void FindPhysicsComponent();
+	void FindInputComponent();
+	FHitResult GetFirstPhysicsBodyInReach() const;
+
 	float Reach = 100.f;
-	
+
+	UPhysicsHandleComponent* PhysicsHandle = nullptr;
+	UInputComponent* Input = nullptr;
 };
