@@ -21,11 +21,16 @@ void UGrabber::Grab()
 	if (ActorHit != nullptr)
 	{
 		PhysicsHandle->GrabComponent(ComponentToGrab, NAME_None, ComponentToGrab->GetOwner()->GetActorLocation(), true);
+		if (PhysicsHandle == nullptr)
+		{
+			UE_LOG(LogTemp, Error, TEXT("PhysicsHandle is missing!"));
+		}
 	}
 }
 
 void UGrabber::Release()
 {
+	if (!PhysicsHandle) { return; }
 	PhysicsHandle->ReleaseComponent();
 }
 
@@ -70,6 +75,8 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);	
 
 	FHitResult ObjectPosition = GetFirstPhysicsBodyInReach();
+
+	if (!PhysicsHandle) { return; }
 
 	if (PhysicsHandle->GrabbedComponent)
 	{

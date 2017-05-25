@@ -5,6 +5,8 @@
 #include "Components/ActorComponent.h"
 #include "OpenDoor.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnOpenRequest);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCloseRequest);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class SECTION_02_API UOpenDoor : public UActorComponent
@@ -14,8 +16,12 @@ class SECTION_02_API UOpenDoor : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UOpenDoor();
-	void OpenDoor();
-	void CloseDoor();
+
+	UPROPERTY(BlueprintAssignable)
+		FOnOpenRequest OnOpenRequest;
+
+	UPROPERTY(BlueprintAssignable)
+		FOnCloseRequest OnCloseRequest;
 
 protected:
 	// Called when the game starts
@@ -26,15 +32,14 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-	UPROPERTY(VisibleAnywhere)
-		float OpenAngle = 90.0f;
 	UPROPERTY(EditAnywhere)
-		ATriggerVolume* PressurePlate;
+		ATriggerVolume* PressurePlate = nullptr;
+
 	UPROPERTY(EditAnywhere)
-		float DoorCloseDelay = 1.0f;
+		float TriggerMass = 20.f;
 
-	float LastTimeDoorOpened;
+	AActor* PlayerPawn = nullptr;
+	AActor* gameObject = nullptr;
 
-	AActor* PlayerPawn;
-	AActor* gameObject;
+	float GetTotalMassOfActorsOnPressurePlate();
 };
